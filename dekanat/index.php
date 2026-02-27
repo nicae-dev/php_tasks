@@ -50,19 +50,30 @@ class CourseManager {
         }
         return $coursesWithoutDuty;
     }
-    public function coursesWithDutyForOutput(){
+    public function coursesWithDutyForOutput() {
         $coursesWithoutDuty = $this->coursesWithDuty();
         if ($coursesWithoutDuty) {
-            return implode('\n',$coursesWithoutDuty);
-        } else{
+            return implode('<br>', array_keys($coursesWithoutDuty));
+        } else {
             return 'Пусто';
         }
     }
 }
 
 // ваш код
-$studentsInfo = 'Анна,Математика,85;Анна,Химия,90;Борис,Математика,75;Борис,История,80;Евгений,Математика,95';//trim(fgets(STDIN));
-$coursesInfo = 'Математика,80;Химия,60;История,80';// trim(fgets(STDIN));
-
-$cm = new CourseManager($studentsInfo, $coursesInfo);
-$coursesWithoutDuty = $cm->coursesWithDuty();
+$infos = [];
+$infos[] = [
+    'studentsInfo' => 'Анна,Математика,85;Анна,Химия,90;Борис,Математика,75;Борис,История,80;Евгений,Математика,95',
+    'coursesInfo' => 'Математика,80;Химия,60;История,80',
+];
+$infos[] = [
+    'studentsInfo' => 'Анна,Математика,75;Анна,Химия,70;Борис,История,80;Евгений,Математика,50;Евгений,История,75',
+    'coursesInfo' => 'Математика,80;Химия,90;История,90',
+];
+foreach ($infos as $key=>$info) {
+    echo '<h1>Тест #'.$key.'</h1>';
+    echo '<h2>Входные данные: </h2><p>'.$info['studentsInfo'].'</p><p>'.$info['coursesInfo'].'</p>';
+    $cm = new CourseManager($info['studentsInfo'], $info['coursesInfo']);
+    echo '<h2>Выходные данные: </h2>'. $cm->coursesWithDutyForOutput();
+    echo '<hr>';
+}
